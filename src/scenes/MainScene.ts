@@ -1,3 +1,4 @@
+import { start } from "repl"
 
 export default class MainScene extends Phaser.Scene {
     background!: Phaser.GameObjects.Image
@@ -5,6 +6,10 @@ export default class MainScene extends Phaser.Scene {
     pointer!: Phaser.GameObjects.Image
     buttonSpin!: Phaser.GameObjects.Image
     buttonConfirm!: Phaser.GameObjects.Image
+    buttonLogin!: Phaser.GameObjects.Image
+    createNewButton!: Phaser.GameObjects.Image
+    i!: Phaser.GameObjects.Image
+    iPopUp!: Phaser.GameObjects.Image
     obtain!: Phaser.GameObjects.Image
     maxSpin!: number
     slices!: number
@@ -45,6 +50,14 @@ export default class MainScene extends Phaser.Scene {
             .setDepth(100)
             .setInteractive()
 
+        this.i = this.add.image(cam.width - 300, cam.height / 2.7, 'i')
+            .setDepth(50)
+            .setInteractive()
+        this.i.on('pointerdown', this.info, this)
+        this.iPopUp = this.add.image(cam.width / 2, cam.height / 2, 'iPopUp')
+            .setScale(1)
+            .setVisible(false)
+            .setDepth(100)
         this.obtain = this.add.image(cam.width / 2, cam.height / 2, 'obtain')
             .setScale(0.1)
             .setVisible(false)
@@ -68,6 +81,21 @@ export default class MainScene extends Phaser.Scene {
             .setDepth(100)
             .setInteractive()
             .setVisible(false)
+        this.buttonConfirm.on('pointerdown', this.confirm, this)
+        this.buttonLogin = this.add.image(cam.width / 2-15, cam.height / 2.2, 'loginBtn')
+            .setVisible(false)
+            .setInteractive()
+            .setDepth(100)
+        this.buttonLogin.on('pointerdown', () => {
+            this.scene.start('Login')
+        })
+        this.createNewButton = this.add.image(cam.width / 2-15, cam.height / 1.85, 'createNewBtn')
+            .setVisible(false)
+            .setInteractive()
+            .setDepth(100)
+            this.createNewButton.on('pointerdown', () => {
+                this.scene.start('Register')
+            })
 
         this.maxSpinText = this.add.text(cam.width - 230, 110, `${this.maxSpin}x`,
             { fontFamily: 'Arial black', fontSize: 50, fontStyle: 'bold', color: '#F4A240', strokeThickness: 10, stroke: '#000000' })
@@ -88,26 +116,14 @@ export default class MainScene extends Phaser.Scene {
                 .setRotation(angle)
             this.prizesGroup.push({ angle, textObj })
         });
-        // this.prizesGroup = this.add.group()
-        // const newPrizesGroup = this.prizesArr.forEach((item: any, index: any) => {
-        //     const angle = angleStep * (index+3);
-        //     const x = centerX + radius * Math.cos(angle);
-        //     const y = centerY + radius * Math.sin(angle);
-        //     const textObj = this.add.text(x, y, item,
-        //         { fontFamily: 'Arial black', fontSize: 50, fontStyle: 'bold', color: '#F4A240', strokeThickness: 10, stroke: '#000000' })
-        //         .setOrigin(0.5)
-        //         .setRotation(angle)
-        //     this.prizesGroup.add(textObj)
-        // });
 
     }
 
     spin() {
         const cam = this.cameras.main
-        this.spinSfx.play()
-
 
         if (this.maxSpin > 0) {
+            this.spinSfx.play()
             var round = Phaser.Math.Between(4, 6)
             var multiDegrees = Phaser.Math.Between(0, 11)
             var degrees = 30 * multiDegrees
@@ -147,15 +163,7 @@ export default class MainScene extends Phaser.Scene {
                     })
                     this.prizeText.setText(`${this.prizesArr[this.prize]}`)
                     // this.prizeText.setText(`${this.sliceName[this.prize]}`)
-                    this.buttonConfirm.on('pointerdown', () => {
-                        this.bgPopup.setVisible(false)
-                        this.prizeText.setVisible(false)
-                        this.obtain.setVisible(false)
-                        this.buttonConfirm.setVisible(false)
-                        this.buttonConfirm.setScale(0.1)
-                        this.obtain.setScale(0.1)
-                        this.prizeText.setScale(0.1)
-                    })
+
                 }
             })
             this.maxSpin = this.maxSpin - 1
@@ -166,5 +174,22 @@ export default class MainScene extends Phaser.Scene {
 
         }
 
+    }
+
+    confirm() {
+        this.bgPopup.setVisible(false)
+        this.prizeText.setVisible(false)
+        this.obtain.setVisible(false)
+        this.buttonConfirm.setVisible(false)
+        this.buttonConfirm.setScale(0.1)
+        this.obtain.setScale(0.1)
+        this.prizeText.setScale(0.1)
+    }
+
+    info() {
+        this.bgPopup.setVisible(true)
+        this.iPopUp.setVisible(true)
+        this.buttonLogin.setVisible(true)
+        this.createNewButton.setVisible(true)
     }
 }

@@ -51,6 +51,10 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('obtain', 'assets/img/obtain.png')
         this.load.image('buttonspin', 'assets/img/spinBtn.png')
         this.load.image('buttonconfirm', 'assets/img/confirmBtn.png')
+        this.load.image('loginBtn', 'assets/img/loginBtn.png')
+        this.load.image('createNewBtn', 'assets/img/CreateNewBtn.png')
+        this.load.image('i', 'assets/img/i.png')
+        this.load.image('iPopUp', 'assets/img/i-popup.png')
 
         this.load.audio('bgmusic', 'music/bgmusic.mp3')
         this.load.audio('prizeSFX', 'music/prize.mp3')
@@ -60,8 +64,8 @@ export default class PreloadScene extends Phaser.Scene {
 
     create() {
         // this.scene.start('Prizes')
-        this.scene.start('Register')
-        // this.scene.start('MainScene')
+        // this.scene.start('Register')
+        this.scene.start('MainScene')
 
         /**
          * This is how you would dynamically import the mainScene class (with code splitting),
