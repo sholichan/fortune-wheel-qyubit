@@ -24,6 +24,7 @@ export default class Prizes extends Phaser.Scene {
                 const four = element.getChildByName('4') as any
                 const five = element.getChildByName('5') as any
                 const six = element.getChildByName('6') as any
+                const maxSpin = element.getChildByName('maxSpin') as any
                 // console.log(name.value);
                 // console.log(email.value);
                 // console.log(password.value);
@@ -86,6 +87,11 @@ export default class Prizes extends Phaser.Scene {
                     this.prizes.push(zonk)
                 } else {
                     this.prizes.push(six.value)
+                }
+                if (maxSpin.value == '') {
+                    localStorage.setItem('maxSpin','1')
+                } else {
+                    localStorage.setItem('maxSpin',maxSpin.value)
                 }
 
                 const prizesStr = JSON.stringify(this.prizes)

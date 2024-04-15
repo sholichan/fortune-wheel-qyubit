@@ -6,13 +6,14 @@ export default class MainScene extends Phaser.Scene {
     buttonSpin!: Phaser.GameObjects.Image
     buttonConfirm!: Phaser.GameObjects.Image
     obtain!: Phaser.GameObjects.Image
-    canSpin!: boolean
+    maxSpin!: number
     slices!: number
     sliceName: any
     prize!: any
     prizesArr: any
     prizesGroup: any
     prizeText: any
+    maxSpinText: any
     click: any
     bgPopup!: any
     graphic!: Phaser.GameObjects.Graphics
@@ -25,7 +26,8 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
-        this.canSpin = true
+        const locMaxSpin = localStorage.getItem('maxSpin')
+        this.maxSpin = parseInt(locMaxSpin!)
 
         const cam = this.cameras.main
         this.slices = 12
@@ -67,6 +69,10 @@ export default class MainScene extends Phaser.Scene {
             .setInteractive()
             .setVisible(false)
 
+        this.maxSpinText = this.add.text(cam.width-230 , 110 , `${this.maxSpin}x`,
+            { fontFamily: 'Arial black', fontSize: 50, fontStyle: 'bold', color: '#F4A240', strokeThickness: 10, stroke: '#000000' })
+
+
         const centerX = cam.width / 2
         const centerY = cam.height / 1.8
         const radius = 200
@@ -100,12 +106,13 @@ export default class MainScene extends Phaser.Scene {
         const cam = this.cameras.main
         this.spinSfx.play()
 
-        if (this.canSpin) {
+
+        if (this.maxSpin > 0) {
             var round = Phaser.Math.Between(4, 6)
             var multiDegrees = Phaser.Math.Between(0, 11)
             var degrees = 30 * multiDegrees
             this.prize = this.slices - 1 - Math.floor(degrees / (360 / this.slices))
-             
+
             this.tweens.add({
                 targets: [this.wheel],
                 angle: 360 * round + degrees + 30,
@@ -150,9 +157,12 @@ export default class MainScene extends Phaser.Scene {
                     })
                 }
             })
+            this.maxSpin = this.maxSpin - 1
+            this.maxSpinText.setText(`${this.maxSpin}x`)
+
             console.log(`Question${this.prizesArr[this.prize]}`);
             console.log(this.prize);
-            // console.log(openScene);
+            console.log(`max spin ${this.maxSpin}`);
 
         }
 

@@ -59,8 +59,8 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-        // this.scene.start('Prizes')
-        this.scene.start('Register')
+        this.scene.start('Prizes')
+        // this.scene.start('Register')
         // this.scene.start('MainScene')
 
         /**
