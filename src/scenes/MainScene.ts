@@ -22,7 +22,7 @@ export default class MainScene extends Phaser.Scene {
     click: any
     bgPopup!: any
     graphic!: Phaser.GameObjects.Graphics
-    bgMusic!: any
+    bgMusic!: Phaser.Sound.BaseSound
     prizeSfx!: Phaser.Sound.BaseSound
     spinSfx!: Phaser.Sound.BaseSound
 
@@ -41,7 +41,8 @@ export default class MainScene extends Phaser.Scene {
         const prizesString = localStorage.getItem('prizes')
         this.prizesArr = JSON.parse(prizesString!)
 
-        this.bgMusic = this.sound.add('bgmusic', { loop: true }).play()
+        this.bgMusic = this.sound.add('bgmusic',{loop:true})
+        this.bgMusic.play()
         this.prizeSfx = this.sound.add('prizeSFX')
         this.spinSfx = this.sound.add('spinSFX')
 
@@ -82,20 +83,22 @@ export default class MainScene extends Phaser.Scene {
             .setInteractive()
             .setVisible(false)
         this.buttonConfirm.on('pointerdown', this.confirm, this)
-        this.buttonLogin = this.add.image(cam.width / 2-15, cam.height / 2.2, 'loginBtn')
+        this.buttonLogin = this.add.image(cam.width / 2 - 15, cam.height / 2.2, 'loginBtn')
             .setVisible(false)
             .setInteractive()
             .setDepth(100)
         this.buttonLogin.on('pointerdown', () => {
+            this.bgMusic.stop()
             this.scene.start('Login')
         })
-        this.createNewButton = this.add.image(cam.width / 2-15, cam.height / 1.85, 'createNewBtn')
+        this.createNewButton = this.add.image(cam.width / 2 - 15, cam.height / 1.85, 'createNewBtn')
             .setVisible(false)
             .setInteractive()
             .setDepth(100)
-            this.createNewButton.on('pointerdown', () => {
-                this.scene.start('Register')
-            })
+        this.createNewButton.on('pointerdown', () => {
+            this.bgMusic.stop()
+            this.scene.start('Register')
+        })
 
         this.maxSpinText = this.add.text(cam.width - 230, 110, `${this.maxSpin}x`,
             { fontFamily: 'Arial black', fontSize: 50, fontStyle: 'bold', color: '#F4A240', strokeThickness: 10, stroke: '#000000' })
