@@ -69,7 +69,7 @@ export default class MainScene extends Phaser.Scene {
             .setInteractive()
             .setVisible(false)
 
-        this.maxSpinText = this.add.text(cam.width-230 , 110 , `${this.maxSpin}x`,
+        this.maxSpinText = this.add.text(cam.width - 230, 110, `${this.maxSpin}x`,
             { fontFamily: 'Arial black', fontSize: 50, fontStyle: 'bold', color: '#F4A240', strokeThickness: 10, stroke: '#000000' })
 
 
@@ -135,6 +135,7 @@ export default class MainScene extends Phaser.Scene {
                     this.obtain.setVisible(true)
                     this.buttonConfirm.setVisible(true)
                     this.prizeSfx.play()
+                    this.maxSpinText.setText(`${this.maxSpin}x`)
                     this.tweens.add({
                         targets: [this.obtain, this.buttonConfirm, this.prizeText],
                         scaleX: 1,
@@ -158,7 +159,6 @@ export default class MainScene extends Phaser.Scene {
                 }
             })
             this.maxSpin = this.maxSpin - 1
-            this.maxSpinText.setText(`${this.maxSpin}x`)
 
             console.log(`Question${this.prizesArr[this.prize]}`);
             console.log(this.prize);
