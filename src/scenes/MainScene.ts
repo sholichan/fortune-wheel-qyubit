@@ -74,6 +74,7 @@ export default class MainScene extends Phaser.Scene {
         this.add.circle(cam.width / 2 + 15, cam.height / 1.8 + 15, 439, 0x000000)
         this.wheel = this.add.image(cam.width / 2, cam.height / 1.8, 'wheel12')
         this.pointer = this.add.image(cam.width / 2, cam.height / 1.8, 'pointer')
+        .setDepth(50)
         this.buttonSpin = this.add.image(cam.width / 2, cam.height / 1.2, 'buttonspin')
             .setInteractive()
         this.buttonSpin.on('pointerdown', this.spin, this)
@@ -106,7 +107,7 @@ export default class MainScene extends Phaser.Scene {
 
         const centerX = cam.width / 2
         const centerY = cam.height / 1.8
-        const radius = 200
+        const radius = 110
         const angleStep = (2 * Math.PI) / this.prizesArr.length;
         this.prizesGroup = []
         const newPrizesGroup = this.prizesArr.forEach((item: any, index: any) => {
@@ -114,8 +115,8 @@ export default class MainScene extends Phaser.Scene {
             const x = centerX + radius * Math.cos(angle);
             const y = centerY + radius * Math.sin(angle);
             const textObj = this.add.text(x, y, item,
-                { fontFamily: 'Arial black', fontSize: 40, fontStyle: 'bold', color: '#F4A240', strokeThickness: 5, stroke: '#000000' })
-                .setOrigin(0.5)
+                { fontFamily: 'Arial black', fontSize: 38, fontStyle: 'bold', color: '#F4A240', strokeThickness: 5, stroke: '#000000' })
+                .setOrigin(0,0.5)
                 .setRotation(angle)
             this.prizesGroup.push({ angle, textObj })
         });
@@ -143,8 +144,8 @@ export default class MainScene extends Phaser.Scene {
 
                     this.prizesGroup.forEach((obj: any) => {
                         const newAngle = obj.angle + Phaser.Math.DegToRad(progress);
-                        obj.textObj.x = cam.width / 2 + 200 * Math.cos(newAngle);
-                        obj.textObj.y = cam.height / 1.8 + 200 * Math.sin(newAngle);
+                        obj.textObj.x = cam.width / 2 + 110 * Math.cos(newAngle);
+                        obj.textObj.y = cam.height / 1.8 + 110 * Math.sin(newAngle);
                         obj.textObj.setRotation(newAngle)
                     });
                 },
